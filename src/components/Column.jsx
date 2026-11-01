@@ -2,6 +2,7 @@ import Task from "./Task";
 import "./Column.css";
 import { useStore } from "../store";
 import { useMemo, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import classNames from "classnames";
 
 export default function Column({ state }) {
@@ -16,6 +17,9 @@ export default function Column({ state }) {
     () => tasks.filter((task) => task.state === state),
     [tasks, state],
   );
+  // const tasks = useStore(
+  //   useShallow((store) => store.tasks.filter((task) => task.state === state)),
+  // );
   const addTask = useStore((store) => store.addTask);
   const setDraggedTask = useStore((store) => store.setDraggedTask);
   const draggedTask = useStore((store) => store.draggedTask);
