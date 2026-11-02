@@ -10,16 +10,16 @@ export default function Column({ state }) {
   const [open, setOpen] = useState(false);
   const [drop, setDrop] = useState(false);
 
-  const tasks = useStore(
-    (store) => store.tasks, //.filter((task) => task.state === state),
-  );
-  const filtered = useMemo(
-    () => tasks.filter((task) => task.state === state),
-    [tasks, state],
-  );
   // const tasks = useStore(
-  //   useShallow((store) => store.tasks.filter((task) => task.state === state)),
+  //   (store) => store.tasks, //.filter((task) => task.state === state),
   // );
+  // const filtered = useMemo(
+  //   () => tasks.filter((task) => task.state === state),
+  //   [tasks, state],
+  // );
+  const tasks = useStore(
+    useShallow((store) => store.tasks.filter((task) => task.state === state)),
+  );
   const addTask = useStore((store) => store.addTask);
   const setDraggedTask = useStore((store) => store.setDraggedTask);
   const draggedTask = useStore((store) => store.draggedTask);
@@ -46,7 +46,10 @@ export default function Column({ state }) {
         <p>{state}</p>
         <button onClick={() => setOpen(true)}>Add</button>
       </div>
-      {filtered.map((task) => (
+      {/* {filtered.map((task) => (
+        <Task title={task.title} key={task.title} />
+      ))} */}
+      {tasks.map((task) => (
         <Task title={task.title} key={task.title} />
       ))}
       {open && (
